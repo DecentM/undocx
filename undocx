@@ -1,0 +1,12 @@
+#!/bin/bash
+if [ "$#" -ne 2 ]; then
+        printf "$0 requires exactly 2 parameters, you provided $#\n"
+        exit
+fi
+if [ ! -f "$1" ]; then
+        printf "$1 doesn't exist\n"
+        exit
+fi
+printf "Converting $1 to plaintext file: $2\n"
+unzip -p "$1" word/document.xml | sed -e 's/<\/w:p>/\n/g; s/<[^>]\{1,\}>//g; s/[^[:print:]\n]\{1,\}//g' > "$2"
+printf "\n"
